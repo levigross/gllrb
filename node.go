@@ -87,10 +87,6 @@ func moveRedRight(n *Node) *Node {
 }
 
 func min(node *Node) *Node {
-	if node == nil {
-		return nil
-	}
-
 	for node.left != nil {
 		node = node.left
 	}
@@ -98,10 +94,6 @@ func min(node *Node) *Node {
 }
 
 func max(node *Node) *Node {
-	if node == nil {
-		return nil
-	}
-
 	for node.right != nil {
 		node = node.right
 	}
@@ -109,10 +101,6 @@ func max(node *Node) *Node {
 }
 
 func deleteMin(n *Node) *Node {
-	if n == nil {
-		return nil
-	}
-
 	if n.left == nil {
 		return nil
 	}

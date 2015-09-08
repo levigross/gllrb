@@ -93,6 +93,9 @@ func TestLLRBMin(t *testing.T) {
 func TestLLRBDelete(t *testing.T) {
 	words := WordList()
 	llrb := NewLLRB()
+
+	llrb.Delete(Bytes([]byte("while")))
+
 	for _, word := range words {
 		llrb.Put(Bytes(word))
 	}
