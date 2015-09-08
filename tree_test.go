@@ -3,9 +3,19 @@ package gllrb
 import (
 	"bytes"
 	"io/ioutil"
+	"log"
 	"math/rand"
 	"testing"
 )
+
+func WordList() [][]byte {
+	dict, err := ioutil.ReadFile("test_data/words")
+	if err != nil {
+		log.Fatal("Unable to read words dict", err)
+	}
+	return bytes.Split(dict, []byte("\n"))
+
+}
 
 func TestLLRBCreate(t *testing.T) {
 	tree := NewLLRB()
@@ -15,11 +25,7 @@ func TestLLRBCreate(t *testing.T) {
 }
 
 func TestLLRBInsert(t *testing.T) {
-	dict, err := ioutil.ReadFile("test_data/words")
-	if err != nil {
-		t.Fatal("Unable to read words dict", err)
-	}
-	words := bytes.Split(dict, []byte("\n"))
+	words := WordList()
 	llrb := NewLLRB()
 	for _, word := range words {
 		llrb.Put(Bytes(word))
@@ -38,11 +44,7 @@ func TestLLRBInsert(t *testing.T) {
 }
 
 func TestLLRBMax(t *testing.T) {
-	dict, err := ioutil.ReadFile("test_data/words")
-	if err != nil {
-		t.Fatal("Unable to read words dict", err)
-	}
-	words := bytes.Split(dict, []byte("\n"))
+	words := WordList()
 	llrb := NewLLRB()
 	if m := llrb.Max(); m != nil {
 		t.Error("Blank tree returns non-nil when Max is called")
@@ -58,11 +60,7 @@ func TestLLRBMax(t *testing.T) {
 }
 
 func TestLLRBMin(t *testing.T) {
-	dict, err := ioutil.ReadFile("test_data/words")
-	if err != nil {
-		t.Fatal("Unable to read words dict", err)
-	}
-	words := bytes.Split(dict, []byte("\n"))
+	words := WordList()
 	llrb := NewLLRB()
 
 	if m := llrb.Min(); m != nil {
@@ -79,11 +77,7 @@ func TestLLRBMin(t *testing.T) {
 }
 
 func TestLLRBDelete(t *testing.T) {
-	dict, err := ioutil.ReadFile("test_data/words")
-	if err != nil {
-		t.Fatal("Unable to read words dict", err)
-	}
-	words := bytes.Split(dict, []byte("\n"))
+	words := WordList()
 	llrb := NewLLRB()
 	for _, word := range words {
 		llrb.Put(Bytes(word))
@@ -98,11 +92,7 @@ func TestLLRBDelete(t *testing.T) {
 }
 
 func TestLLRBGet(t *testing.T) {
-	dict, err := ioutil.ReadFile("test_data/words")
-	if err != nil {
-		t.Fatal("Unable to read words dict", err)
-	}
-	words := bytes.Split(dict, []byte("\n"))
+	words := WordList()
 
 	llrb := NewLLRB()
 
@@ -114,7 +104,7 @@ func TestLLRBGet(t *testing.T) {
 		llrb.Put(Bytes(word))
 	}
 
-	if uint64(len(words)) != llrb.root.Number {
+	if uint64(len(words)) != llrb.Size() {
 		t.Error("RB tree height not where it needs to be. Is",
 			llrb.root.Number, "Should be", len(words))
 	}
@@ -133,11 +123,7 @@ func TestLLRBGet(t *testing.T) {
 }
 
 func BenchmarkLLRBInsert(b *testing.B) {
-	dict, err := ioutil.ReadFile("test_data/words")
-	if err != nil {
-		b.Fatal("Unable to read words dict", err)
-	}
-	words := bytes.Split(dict, []byte("\n"))
+	words := WordList()
 	llrb := NewLLRB()
 
 	b.ReportAllocs()
