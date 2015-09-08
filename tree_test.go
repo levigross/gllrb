@@ -43,6 +43,20 @@ func TestLLRBInsert(t *testing.T) {
 	}
 }
 
+func TestGoMapInsert(t *testing.T) {
+	words := WordList()
+	gomap := map[string][]byte{}
+	for _, word := range words {
+		gomap[string(word)] = word
+	}
+
+	if len(words) != len(gomap) {
+		t.Error("RB tree height not where it needs to be. Is",
+			len(gomap), "Should be", len(words))
+	}
+
+}
+
 func TestLLRBMax(t *testing.T) {
 	words := WordList()
 	llrb := NewLLRB()
