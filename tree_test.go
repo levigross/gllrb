@@ -89,11 +89,12 @@ func TestLLRBDelete(t *testing.T) {
 		llrb.Put(Bytes(word))
 	}
 
-	llrb.Delete(Bytes([]byte("while")))
-	//
-	// if sen := llrb.Get(Bytes([]byte("while"))); sen != nil {
-	// 	t.Error("Word 'while'  in LLRB")
-	// }
+	for _, word := range words {
+		llrb.Delete(Bytes(word))
+		if sen := llrb.Get(Bytes(word)); sen != nil {
+			t.Error("Word", string(word), "in LLRB")
+		}
+	}
 }
 
 func TestLLRBGet(t *testing.T) {

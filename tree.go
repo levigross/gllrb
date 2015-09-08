@@ -19,14 +19,20 @@ func (l *LLRB) Put(Key Comparer) {
 // Delete removes a value from our LLRB
 func (l *LLRB) Delete(Key Comparer) {
 	l.root = deletellrb(l.root, Key)
-	l.root.color = false // BLACK
+
+	if l.root != nil {
+		l.root.color = false // BLACK
+	}
+
 }
 
 // Get will return a value from our key LLRB
 func (l *LLRB) Get(key Comparer) interface{} {
+
 	if l.root == nil {
 		return nil
 	}
+
 	val := l.root
 	for val != nil {
 		cmp := val.Key.Compare(key)
@@ -44,28 +50,20 @@ func (l *LLRB) Get(key Comparer) interface{} {
 
 // Min returns the "lowest" item on the tree
 func (l *LLRB) Min() interface{} {
-	node := l.root
-	if node == nil {
+	if l.root == nil {
 		return nil
 	}
 
-	for node.left != nil {
-		node = node.left
-	}
-	return node.Value
+	return min(l.root).Value
 }
 
 // Max returns the "highest" item on the tree
 func (l *LLRB) Max() interface{} {
-	node := l.root
-	if node == nil {
+	if l.root == nil {
 		return nil
 	}
 
-	for node.right != nil {
-		node = node.right
-	}
-	return node.Value
+	return max(l.root).Value
 }
 
 // Size returns the length of the LLRB
@@ -99,6 +97,9 @@ func deletellrb(n *Node, key Comparer) *Node {
 	}
 
 	if n.Key.Compare(key) == 0 {
+		node := min(n.right)
+		n.Value = node.Value
+		n.Key = node.Key
 		n.right = deleteMin(n.right)
 	} else {
 		n.right = deletellrb(n.right, key)
