@@ -35,7 +35,7 @@ func (l *LLRB) Get(key Comparer) interface{} {
 
 	val := l.root
 	for val != nil {
-		cmp := val.Key.Compare(key)
+		cmp := key.Compare(val.Key)
 		switch {
 		case cmp < 0:
 			val = val.left
@@ -76,7 +76,7 @@ func deletellrb(n *Node, key Comparer) *Node {
 		return nil
 	}
 
-	if cmp := n.Key.Compare(key); cmp < 0 {
+	if cmp := key.Compare(n.Key); cmp < 0 {
 		if !isRed(n.left) && !isRed(n.left.left) {
 			n = moveRedLeft(n)
 		}
@@ -88,7 +88,7 @@ func deletellrb(n *Node, key Comparer) *Node {
 		n = rotateRight(n)
 	}
 
-	if n.Key.Compare(key) == 0 && n.right == nil {
+	if key.Compare(n.Key) == 0 && n.right == nil {
 		return nil
 	}
 
@@ -96,7 +96,7 @@ func deletellrb(n *Node, key Comparer) *Node {
 		n = moveRedRight(n)
 	}
 
-	if n.Key.Compare(key) == 0 {
+	if key.Compare(n.Key) == 0 {
 		node := min(n.right)
 		n.Value = node.Value
 		n.Key = node.Key
@@ -118,7 +118,7 @@ func put(n *Node, key Comparer) *Node {
 		}
 	}
 
-	cmp := n.Key.Compare(key)
+	cmp := key.Compare(n.Key)
 	switch {
 	case cmp < 0:
 		n.left = put(n.left, key)

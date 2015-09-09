@@ -52,18 +52,13 @@ func calculateNumber(n *Node) uint64 {
 		return n.right.Number + n.left.Number
 	}
 
-	rightNumber := uint64(0)
 	leftNumber := uint64(0)
 
-	if n.right != nil && n.left == nil {
-		rightNumber = n.right.Number
-	}
-
-	if n.left != nil && n.right == nil {
+	if n.left != nil {
 		leftNumber = n.left.Number
 	}
 
-	return rightNumber + leftNumber
+	return uint64(0) + leftNumber // The right node will always have nothing in this case
 
 }
 
