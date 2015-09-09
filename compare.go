@@ -34,12 +34,12 @@ type StringComparer struct {
 	value string
 }
 
-// UInt is used when a user wishes to insert a string into the LLRB
+// UInt is used when a user wishes to insert a uint into the LLRB
 func UInt(v uint) *UIntComparer {
 	return &UIntComparer{value: uint64(v)}
 }
 
-// Value will return the value of our string as an {}interface
+// Value will return the value of our uint as an {}interface
 func (ui *UIntComparer) Value() interface{} {
 	return ui.value
 }
@@ -57,12 +57,12 @@ func (ui *UIntComparer) Compare(a Comparer) int {
 	return 0
 }
 
-// Int is used when a user wishes to insert a string into the LLRB
+// Int is used when a user wishes to insert a int into the LLRB
 func Int(v int) *IntComparer {
 	return &IntComparer{value: int64(v)}
 }
 
-// Value will return the value of our string as an {}interface
+// Value will return the value of our int as an {}interface
 func (i *IntComparer) Value() interface{} {
 	return i.value
 }
