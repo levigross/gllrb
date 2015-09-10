@@ -102,4 +102,4 @@ func (sc *StringComparer) Compare(a Comparer) int {
 Concurrency
 ===========
 
-GLLRB does offer any form of concurrency protection.
+GLLRB does *not* offer any form of concurrency protection.
