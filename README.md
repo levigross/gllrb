@@ -29,7 +29,7 @@ word := []byte("hello")
 
 bytesLLRB := gllrb.NewLLRB()
 
-// every item placed into the LLRB needs to be encapsulated within a `Comparer` interface   
+// every item placed into the LLRB needs to be encapsulated within a `Comparer` interface
 
 bytesLLRB.Put(gllrb.Bytes(word))
 
@@ -39,13 +39,16 @@ gllrb.UInt(123)
 gllrb.Int(-123)
 
 // Get the item as an interface{} so it must be typecast
-myWord := bytesLLRB.Get(gllrb.Bytes()).([]byte)
+myWord := bytesLLRB.Get(gllrb.Bytes(word)).(gllrb.ByteComparer)
 
 // Delete the item
 bytesLLRB.Delete(gllrb.Bytes(word))
 
 // Trying to get an item that doesn't exist will return a nil
-bytesLLRB.Get(gllrb.Bytes(word)) == nil // true
+if bytesLLRB.Get(gllrb.Bytes(word)) == nil { // true
+    fmt.Println("This will always print", myWord)
+}
+
 
 ```
 
@@ -67,30 +70,23 @@ type Comparer interface {
 Here is an example of the `StringComparer` built into the library
 
 ```go
-// StringComparer is a wrapper struct around a string that enables us
-// to use it with our red black tree
-type StringComparer struct {
-	value string
-}
-
 // String is used when a user wishes to insert a string into the LLRB
-func String(v string) *StringComparer {
-	return &StringComparer{value: v}
+func String(v string) StringComparer {
+	return StringComparer(v)
 }
 
 // Value will return the value of our string as an {}interface
-func (sc *StringComparer) Value() interface{} {
-	return sc.value
+func (sc StringComparer) Value() interface{} {
+	return sc
 }
 
 // Compare compares two strings (and follows the return format of bytes.Compare)
-// The result will be 0 if a==b, -1 if a < b, and +1 if a > b.
-func (sc *StringComparer) Compare(a Comparer) int {
-	if sc.Value().(string) > a.Value().(string) {
+func (sc StringComparer) Compare(a Comparer) int {
+	if sc.Value().(StringComparer) > a.Value().(StringComparer) {
 		return +1
 	}
 
-	if sc.Value().(string) < a.Value().(string) {
+	if sc.Value().(StringComparer) < a.Value().(StringComparer) {
 		return -1
 	}
 

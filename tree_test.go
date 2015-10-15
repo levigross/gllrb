@@ -38,7 +38,7 @@ func TestLLRBInsert(t *testing.T) {
 			llrb.root.Number, "Should be", len(words))
 	}
 
-	if string(llrb.root.Value.([]byte)) != "pockwood" {
+	if string(llrb.root.Value.(ByteComparer)) != "pockwood" {
 		t.Error("Root value is not 'pockwood", string(llrb.root.Value.([]byte)))
 	}
 }
@@ -55,16 +55,16 @@ func TestLLRBInsertUInt(t *testing.T) {
 			llrb.root.Number, "Should be", 300000)
 	}
 
-	if llrb.root.Value.(uint64) != uint64(16383) {
-		t.Error("Root value is not '16383", llrb.root.Value.(uint64))
+	if uint64(llrb.root.Value.(UIntComparer)) != uint64(16383) {
+		t.Error("Root value is not '16383", llrb.root.Value.(UIntComparer))
 	}
 
-	if llrb.Max().(uint64) != uint64(29999) {
-		t.Error("Right most element on the tree isn't '29999' it is", llrb.Max().(uint64))
+	if uint64(llrb.Max().(UIntComparer)) != uint64(29999) {
+		t.Error("Right most element on the tree isn't '29999' it is", llrb.Max().(UIntComparer))
 	}
 
-	if llrb.Min().(uint64) != uint64(0) {
-		t.Error("Left most element on the tree isn't '0' it is ", llrb.Min().(uint64))
+	if uint64(llrb.Min().(UIntComparer)) != uint64(0) {
+		t.Error("Left most element on the tree isn't '0' it is ", llrb.Min().(UIntComparer))
 	}
 
 	for i := 0; i < 30000; i++ {
@@ -88,16 +88,16 @@ func TestLLRBInsertInt(t *testing.T) {
 			llrb.root.Number, "Should be", 300000)
 	}
 
-	if llrb.root.Value.(int64) != int64(1383) {
-		t.Error("Root value is not '16383", llrb.root.Value.(int64))
+	if int64(llrb.root.Value.(IntComparer)) != int64(1383) {
+		t.Error("Root value is not '16383", llrb.root.Value.(IntComparer))
 	}
 
-	if llrb.Max().(int64) != int64(14999) {
-		t.Error("Right most element on the tree isn't '14999' it is", llrb.Max().(int64))
+	if int64(llrb.Max().(IntComparer)) != int64(14999) {
+		t.Error("Right most element on the tree isn't '14999' it is", llrb.Max().(IntComparer))
 	}
 
-	if llrb.Min().(int64) != int64(-15000) {
-		t.Error("Left most element on the tree isn't '-15000' it is ", llrb.Min().(int64))
+	if int64(llrb.Min().(IntComparer)) != int64(-15000) {
+		t.Error("Left most element on the tree isn't '-15000' it is ", llrb.Min().(IntComparer))
 	}
 
 	for i := -15000; i < 15000; i++ {
@@ -121,16 +121,16 @@ func TestLLRBInsertString(t *testing.T) {
 			llrb.root.Number, "Should be", len(words))
 	}
 
-	if llrb.root.Value.(string) != "pockwood" {
+	if llrb.root.Value.(StringComparer) != "pockwood" {
 		t.Error("Root value is not 'pockwood", llrb.root.Value.(string))
 	}
 
-	if llrb.Min().(string) != "A" {
-		t.Error("Left most element on the tree isn't 'A' it is", llrb.Min().(string))
+	if llrb.Min().(StringComparer) != "A" {
+		t.Error("Left most element on the tree isn't 'A' it is", llrb.Min().(StringComparer))
 	}
 
-	if llrb.Max().(string) != "zythum" {
-		t.Error("Right most element on the tree isn't 'zythum' it is ", llrb.Max().(string))
+	if llrb.Max().(StringComparer) != "zythum" {
+		t.Error("Right most element on the tree isn't 'zythum' it is ", llrb.Max().(StringComparer))
 	}
 
 	for _, word := range words {
@@ -166,8 +166,8 @@ func TestLLRBMax(t *testing.T) {
 		llrb.Put(Bytes(word))
 	}
 
-	if string(llrb.Max().([]byte)) != "zythum" {
-		t.Error("Right most element on the tree isn't 'zythum' it is", string(llrb.Max().([]byte)))
+	if string(llrb.Max().(ByteComparer)) != "zythum" {
+		t.Error("Right most element on the tree isn't 'zythum' it is", string(llrb.Max().(ByteComparer)))
 	}
 }
 
@@ -183,8 +183,8 @@ func TestLLRBMin(t *testing.T) {
 		llrb.Put(Bytes(word))
 	}
 
-	if string(llrb.Min().([]byte)) != "A" {
-		t.Error("Left most element on the tree isn't 'A' it is ", string(llrb.Min().([]byte)))
+	if string(llrb.Min().(ByteComparer)) != "A" {
+		t.Error("Left most element on the tree isn't 'A' it is ", string(llrb.Min().(ByteComparer)))
 	}
 }
 
@@ -224,11 +224,11 @@ func TestLLRBGet(t *testing.T) {
 			llrb.root.Number, "Should be", len(words))
 	}
 
-	if string(llrb.root.Value.([]byte)) != "pockwood" {
+	if string(llrb.root.Value.(ByteComparer)) != "pockwood" {
 		t.Error("Root value is not 'pockwood", string(llrb.root.Value.([]byte)))
 	}
 
-	if sen := llrb.Get(Bytes([]byte("while"))); bytes.Compare(sen.([]byte), []byte("while")) != 0 {
+	if sen := llrb.Get(Bytes([]byte("while"))); bytes.Compare([]byte(sen.(ByteComparer)), []byte("while")) != 0 {
 		t.Error("Word 'while' not in LLRB")
 	}
 

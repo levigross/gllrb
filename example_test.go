@@ -23,7 +23,7 @@ func Example_basicUsage() {
 	gllrb.Int(-123)
 
 	// Get the item as an interface{} so it must be typecast
-	myWord := bytesLLRB.Get(gllrb.Bytes(word)).([]byte)
+	myWord := bytesLLRB.Get(gllrb.Bytes(word)).(gllrb.ByteComparer)
 
 	// Delete the item
 	bytesLLRB.Delete(gllrb.Bytes(word))
