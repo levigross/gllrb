@@ -32,7 +32,7 @@ func rotateLeft(n *Node) *Node {
 	x.color = n.color
 	n.color = true // RED
 	x.Number = n.Number
-	n.Number = calculateNumber(n) + 1
+	n.Number = calculateNumber(n)
 	return x
 }
 
@@ -43,23 +43,19 @@ func rotateRight(n *Node) *Node {
 	x.color = n.color
 	n.color = true // RED
 	x.Number = n.Number
-	n.Number = calculateNumber(n) + 1
+	n.Number = calculateNumber(n)
 	return x
 }
 
+func size(n *Node) uint64 {
+	if n == nil {
+		return uint64(0)
+	}
+	return n.Number
+}
+
 func calculateNumber(n *Node) uint64 {
-	if n.right != nil && n.left != nil {
-		return n.right.Number + n.left.Number
-	}
-
-	leftNumber := uint64(0)
-
-	if n.left != nil {
-		leftNumber = n.left.Number
-	}
-
-	return uint64(0) + leftNumber // The right node will always have nothing in this case
-
+	return size(n.right) + size(n.left) + 1
 }
 
 func moveRedLeft(n *Node) *Node {

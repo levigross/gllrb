@@ -130,7 +130,7 @@ func put(n *Node, key Comparer) *Node {
 
 	n = fixUp(n)
 
-	n.Number = calculateNumber(n) + 1
+	n.Number = calculateNumber(n)
 
 	return n
 }

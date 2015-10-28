@@ -8,12 +8,19 @@ import (
 	"testing"
 )
 
+var ourDict [][]byte
+
 func WordList() [][]byte {
+	if ourDict != nil {
+		return ourDict
+	}
+
 	dict, err := ioutil.ReadFile("test_data/words")
 	if err != nil {
 		log.Fatal("Unable to read words dict", err)
 	}
-	return bytes.Split(dict, []byte("\n"))
+	ourDict = bytes.Split(dict, []byte("\n"))
+	return ourDict
 
 }
 
@@ -35,11 +42,11 @@ func TestLLRBInsert(t *testing.T) {
 
 	if uint64(len(words)) != llrb.Size() {
 		t.Error("RB tree height not where it needs to be. Is",
-			llrb.root.Number, "Should be", len(words))
+			llrb.Size(), "Should be", len(words))
 	}
 
 	if string(llrb.root.Value.(ByteComparer)) != "pockwood" {
-		t.Error("Root value is not 'pockwood", string(llrb.root.Value.([]byte)))
+		t.Error("Root value is not 'pockwood' it is:", string(llrb.root.Value.(ByteComparer)))
 	}
 }
 
@@ -122,7 +129,7 @@ func TestLLRBInsertString(t *testing.T) {
 	}
 
 	if llrb.root.Value.(StringComparer) != "pockwood" {
-		t.Error("Root value is not 'pockwood", llrb.root.Value.(string))
+		t.Error("Root value is not 'pockwood", llrb.root.Value.(StringComparer))
 	}
 
 	if llrb.Min().(StringComparer) != "A" {
@@ -225,10 +232,10 @@ func TestLLRBGet(t *testing.T) {
 	}
 
 	if string(llrb.root.Value.(ByteComparer)) != "pockwood" {
-		t.Error("Root value is not 'pockwood", string(llrb.root.Value.([]byte)))
+		t.Error("Root value is not 'pockwood", string(llrb.root.Value.(ByteComparer)))
 	}
 
-	if sen := llrb.Get(Bytes([]byte("while"))); bytes.Compare([]byte(sen.(ByteComparer)), []byte("while")) != 0 {
+	if sen := llrb.Get(Bytes([]byte("while"))); sen != nil && bytes.Compare([]byte(sen.(ByteComparer)), []byte("while")) != 0 {
 		t.Error("Word 'while' not in LLRB")
 	}
 
